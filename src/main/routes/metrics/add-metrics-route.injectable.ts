@@ -88,15 +88,21 @@ const addMetricsRouteInjectable = getRouteInjectable({
       }
 
       if (isObject(payload)) {
+        console.log("--------------------------------");
         const queries = Object.entries(payload as Record<string, Record<string, string>>)
-          .map(([queryName, queryOpts]) => (
-            provider.getQuery(queryOpts, queryName)
-          ));
+          .map(([queryName, queryOpts]) => {
+            const qry = provider.getQuery(queryOpts, queryName);
+
+            console.log(qry);
+
+            return qry;
+          });
 
         const result = await loadMetrics(queries, cluster, prometheusPath, queryParams);
         const data = Object.fromEntries(Object.keys(payload).map((metricName, i) => [metricName, result[i]]));
 
         prometheusMetadata.success = true;
+        console.log("--------------------------------");
 
         return { response: data };
       }

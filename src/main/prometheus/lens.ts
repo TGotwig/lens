@@ -19,6 +19,8 @@ export class PrometheusLens extends PrometheusProvider {
   }
 
   public getQuery(opts: Record<string, string>, queryName: string): string {
+    process.stdout.write(`🔥 [${queryName}] `);
+
     switch(opts.category) {
       case "cluster":
         switch (queryName) {
